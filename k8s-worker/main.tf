@@ -20,16 +20,9 @@ terraform {
 # LOCALS
 ########
 
-
-
 ######
 # DATA
 ######
-
-# Declare the data source
-data "aws_availability_zones" "this" {
-  state = "available"
-}
 
 #############
 # WORKER NODE
@@ -37,7 +30,7 @@ data "aws_availability_zones" "this" {
 
 resource "aws_lightsail_instance" "this" {
   count             = var.instance_count
-  availability_zone = data.aws_availability_zones.this.names[count.index]
+  availability_zone = var.aws_availability_zones[count.index]
   blueprint_id      = var.blueprint_id
   bundle_id         = var.bundle_id
   name              = "${var.cluster}-worker${count.index}"
