@@ -42,3 +42,14 @@ resource "aws_lightsail_static_ip_attachment" "this" {
   instance_name = aws_lightsail_instance.this[count.index].name
   static_ip_name = var.static_ip_names[count.index]
 }
+
+resource "aws_lightsail_instance_public_ports" "this" {
+  count = var.instance_count
+  instance_name = aws_lightsail_instance.this[count.index].name
+
+  port_info {
+    protocol = "tcp"
+    from_port = 7180
+    to_port = 7280
+  }
+}
